@@ -33,3 +33,35 @@ If you have any questions, please contact me at [${data.email}](mailto:${data.em
 }
 
 module.exports = generateMarkdown;
+
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+        const readmeContent = generateMarkdown(answers);
+        writeToFile('README.md', readmeContent);
+    });
+}
+
+// Function call to initialize app
+init();
+
+function renderLicenseBadge(license) {
+    if (license === 'None') {
+        return '';
+    }
+    return `![License: ${license}](https://img.shields.io/badge/License-${license.replace(' ', '_')}-blue.svg)`;
+}
+
+function renderLicenseLink(license) {
+    if (license === 'None') {
+        return '';
+    }
+    return `\n- [License](#license)\n`;
+}
+
+function renderLicenseSection(license) {
+    if (license === 'None') {
+        return '';
+    }
+    return `## License\nThis project is licensed under the ${license} license.`;
+}
+

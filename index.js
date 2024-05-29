@@ -50,28 +50,19 @@ const questions = [
         message: 'Enter your email address:',
     },
 ];
+
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, (err) =>
         err ? console.error(err) : console.log('Successfully created README.md!')
     );
 }
-function renderLicenseBadge(license) {
-    if (license === 'None') {
-        return '';
-    }
-    return `![License: ${license}](https://img.shields.io/badge/License-${license.replace(' ', '_')}-blue.svg)`;
+
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+        const readmeContent = generateMarkdown(answers);
+        writeToFile('README.md', readmeContent);
+    });
 }
 
-function renderLicenseLink(license) {
-    if (license === 'None') {
-        return '';
-    }
-    return `\n- [License](#license)\n`;
-}
-
-function renderLicenseSection(license) {
-    if (license === 'None') {
-        return '';
-    }
-    return `## License\nThis project is licensed under the ${license} license.`;
-}
+// Function call to initialize app
+init();
